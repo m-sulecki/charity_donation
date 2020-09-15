@@ -76,9 +76,17 @@ WSGI_APPLICATION = 'charity_donation.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+            'HOST': '127.0.0.1',
+            'NAME': 'charity_donation',
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'USER': 'postgres',
+            'PASSWORD': 'coderslab',
+        },
+
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
 }
 
 
