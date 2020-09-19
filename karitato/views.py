@@ -1,10 +1,21 @@
+from django.db.models import Sum
 from django.shortcuts import render
 from django.views.generic import View
+
+from karitato.models import Donation, Institution
 
 
 class LandingPage(View):
     def get(self, request):
-        return render(request, 'index.html')
+        organizations = Donation.objects.values('institution').distinct().count()
+        bags = Donation.objects.all().aggregate(Sum('quantity'))['quantity__sum']
+        institutions = Institution.objects.all()
+        ctx = {
+            'organizations': organizations,
+            'bags': bags,
+            'institutions': institutions,
+        }
+        return render(request, 'index.html', ctx)
 
 
 class AddDonation(View):
