@@ -2,16 +2,6 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import User, AbstractUser
 from django.db import models
 
-from django.utils.translation import gettext_lazy as _
-
-# class User(AbstractUser):
-#     """User model."""
-#
-#     username = None
-#     email = models.EmailField(_('email address'), unique=True)
-#
-#     USERNAME_FIELD = 'email'
-#     REQUIRED_FIELDS = []
 
 class MyUser(AbstractBaseUser):
     first_name = models.CharField(max_length=150)
@@ -20,8 +10,15 @@ class MyUser(AbstractBaseUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
+    def __str__(self):
+        return f'{self.user.first_name} {self.user.last_name}'
+
+
 class Category(models.Model):
     name = models.CharField(max_length=128, default="")
+
+    def __str__(self):
+        return self.name
 
 
 class Institution(models.Model):
@@ -39,6 +36,9 @@ class Institution(models.Model):
     type = models.IntegerField(choices=TYPES, default=FUNDACJA)
     categories = models.ManyToManyField(Category)
 
+    def __str__(self):
+        return self.name
+
 
 class Donation(models.Model):
     quantity = models.IntegerField()
@@ -53,3 +53,5 @@ class Donation(models.Model):
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE, null=True, default=None)
     categories = models.ManyToManyField(Category)
 
+    def __str__(self):
+        return f'{self.user.first_name} {self.user.last_name}({self.city}) Donation'
