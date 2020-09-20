@@ -10,10 +10,16 @@ class LandingPage(View):
         organizations = Donation.objects.values('institution').distinct().count()
         bags = Donation.objects.all().aggregate(Sum('quantity'))['quantity__sum']
         institutions = Institution.objects.all()
+        foundations = Institution.objects.all().filter(type=Institution.FUNDACJA)
+        non_govs = Institution.objects.all().filter(type=Institution.ORGANIZACJA_POZARZADOWA)
+        locals = Institution.objects.all().filter(type=Institution.ZBIORKA_LOKALNA)
         ctx = {
             'organizations': organizations,
             'bags': bags,
             'institutions': institutions,
+            'foundations': foundations,
+            'non_govs': non_govs,
+            'locals': locals,
         }
         return render(request, 'index.html', ctx)
 
