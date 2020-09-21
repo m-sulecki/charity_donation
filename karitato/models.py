@@ -11,7 +11,7 @@ class MyUser(AbstractBaseUser):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return f'{self.user.first_name} {self.user.last_name}'
+        return f'{self.first_name} {self.last_name}'
 
 
 class Category(models.Model):
