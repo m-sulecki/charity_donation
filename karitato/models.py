@@ -1,4 +1,4 @@
-from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import User, AbstractUser
 from django.db import models
 
@@ -9,9 +9,10 @@ class MyUser(AbstractBaseUser):
     email = models.EmailField(max_length=255, unique=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+    objects = BaseUserManager()
 
     def __str__(self):
-        return f'{self.user.first_name} {self.user.last_name}'
+        return f'{self.first_name} {self.last_name}'
 
 
 class Category(models.Model):
