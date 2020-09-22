@@ -13,3 +13,8 @@ class UserRegisterForm(UserCreationForm):
     class Meta:
         model = MyUser
         fields = ('first_name', 'last_name', 'email', 'password1', 'password2',)
+
+
+class LoginForm(forms.Form):
+    login = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'e-mail'}))
+    password = forms.CharField(max_length=100, widget=forms.PasswordInput(attrs={'placeholder': 'hasło'}))

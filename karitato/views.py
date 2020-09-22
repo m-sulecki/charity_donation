@@ -1,11 +1,12 @@
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import View, FormView
 from django.core.paginator import Paginator
 
-from karitato.forms import UserRegisterForm
+from karitato.forms import UserRegisterForm, LoginForm
 from karitato.models import Donation, Institution
 
 
@@ -56,9 +57,19 @@ class AddDonationConfiramtion(View):
         return render(request, 'form-confirmation.html')
 
 
-class LoginView(View):
-    def get(self, request):
-        return render(request, 'login.html')
+class LoginView(FormView):
+    form_class = LoginForm # z jakiego formularza korzysta; z forms.py
+    template_name = 'login.html'
+
+    def form_valid(self, form): # form_valid(form)¶ Redirects to get_success_url().
+        print(form.cleaned_data)
+        user = authenticate(username=form.cleaned_data['login'],   # authenticate(username=username, password=password) Funkcja zwraca obiekt User (jeśli uwierzytelnienie się powiodło) lub None , jeśli było nieudane.
+                            password=form.cleaned_data['password'])
+        if user is not None:
+            login(self.request, user) # login(request, user, backend=None)¶
+        else:
+            return redirect(reverse_lazy('register')) # jeśli logowanie się nie uda
+        return redirect(reverse_lazy('index'))
 
 
 class RegisterView(FormView):
