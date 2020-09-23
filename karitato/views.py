@@ -1,5 +1,6 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -7,7 +8,7 @@ from django.views.generic import View, FormView
 from django.core.paginator import Paginator
 
 from karitato.forms import UserRegisterForm, LoginForm
-from karitato.models import Donation, Institution
+from karitato.models import Donation, Institution, Category
 
 
 class LandingPage(View):
@@ -16,7 +17,7 @@ class LandingPage(View):
         bags = Donation.objects.all().aggregate(Sum('quantity'))['quantity__sum']
         institutions = Institution.objects.all()
 
-        foundations = Institution.objects.all().filter(type=Institution.FUNDACJA) # contact_list
+        foundations = Institution.objects.all().filter(type=Institution.FUNDACJA)  # contact_list
         non_govs = Institution.objects.all().filter(type=Institution.ORGANIZACJA_POZARZADOWA)
         locals = Institution.objects.all().filter(type=Institution.ZBIORKA_LOKALNA)
 
@@ -32,7 +33,6 @@ class LandingPage(View):
         # page_non_gov_obj = non_govs_paginator.get_page(page_non_govs_number)
         # page_locals_obj = locals_paginator.get_page(page_locals_number)
 
-
         ctx = {
             'organizations': organizations,
             'bags': bags,
@@ -46,10 +46,19 @@ class LandingPage(View):
         }
         return render(request, 'index.html', ctx)
 
+    login_url = reverse_lazy("login")
+    template_name = 'form.html'
 
-class AddDonation(View):
+
+class AddDonation(LoginRequiredMixin, View):
+    login_url = reverse_lazy('login')
+
     def get(self, request):
-        return render(request, 'form.html')
+        categories = Category.objects.all()
+        institutions = Institution.objects.all()
+        ctx = {'categories': categories,
+               'institutions': institutions}
+        return render(request, 'form.html', ctx)
 
 
 class AddDonationConfiramtion(View):
@@ -58,17 +67,18 @@ class AddDonationConfiramtion(View):
 
 
 class LoginView(FormView):
-    form_class = LoginForm # z jakiego formularza korzysta; z forms.py
+    form_class = LoginForm  # z jakiego formularza korzysta; z forms.py
     template_name = 'login.html'
 
-    def form_valid(self, form): # form_valid(form)¶ Redirects to get_success_url().
+    def form_valid(self, form):  # form_valid(form)¶ Redirects to get_success_url().
         print(form.cleaned_data)
-        user = authenticate(username=form.cleaned_data['login'],   # authenticate(username=username, password=password) Funkcja zwraca obiekt User (jeśli uwierzytelnienie się powiodło) lub None , jeśli było nieudane.
+        user = authenticate(username=form.cleaned_data['login'],
+                            # authenticate(username=username, password=password) Funkcja zwraca obiekt User (jeśli uwierzytelnienie się powiodło) lub None , jeśli było nieudane.
                             password=form.cleaned_data['password'])
         if user is not None:
-            login(self.request, user) # login(request, user, backend=None)¶
+            login(self.request, user)  # login(request, user, backend=None)¶
         else:
-            return redirect(reverse_lazy('register')) # jeśli logowanie się nie uda
+            return redirect(reverse_lazy('register'))  # jeśli logowanie się nie uda
         return redirect(reverse_lazy('index'))
 
 
@@ -81,5 +91,8 @@ class RegisterView(FormView):
         form.save()
         return super().form_valid(form)
 
+
 class LogoutView(View):
-    pass
+    def get(self, request):
+        logout(request)
+        return redirect(reverse_lazy("index"))
