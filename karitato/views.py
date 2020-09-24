@@ -2,13 +2,13 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import View, FormView
 from django.core.paginator import Paginator
 
-from karitato.forms import UserRegisterForm, LoginForm
-from karitato.models import Donation, Institution, Category
+from karitato.forms import UserRegisterForm, LoginForm, DonationForm
+from karitato.models import Donation, Institution, Category, MyUser
 
 
 class LandingPage(View):
@@ -54,11 +54,48 @@ class AddDonation(LoginRequiredMixin, View):
     login_url = reverse_lazy('login')
 
     def get(self, request):
+        form = DonationForm()
         categories = Category.objects.all()
         institutions = Institution.objects.all()
         ctx = {'categories': categories,
-               'institutions': institutions}
+               'institutions': institutions,
+               'form': form,}
         return render(request, 'form.html', ctx)
+
+    def post(self, request):
+        form = DonationForm(request.POST)
+
+        if form.is_valid():
+            quantity = request.POST.get('bags')
+            categories = request.POST.getlist('categories')
+            organization = request.POST.get('organization')
+            institution = Institution.objects.get(id=organization)
+            address = request.POST.get('address')
+            phone_number = request.POST.get('phone_number')
+            city = request.POST.get('city')
+            zip_code = request.POST.get('zip_code')
+            pick_up_date = request.POST.get("data")
+            pick_up_time = request.POST.get("time")
+            pick_up_comment = request.POST.get("more_info")
+            user = get_object_or_404(MyUser, pk=request.user.id)
+
+            new_donation = Donation.objects.create(
+                quantity=quantity,
+                institution=institution,
+                address=address,
+                phone_number=phone_number,
+                city=city,
+                zip_code=zip_code,
+                pick_up_date=pick_up_date,
+                pick_up_time=pick_up_time,
+                pick_up_comment=pick_up_comment,
+                user=user,
+            )
+            new_donation.save()
+            for i in range(len(categories)):
+                new_categories = Category.objects.get(id=categories[i])
+                new_donation.categories.add(new_categories)
+            return render(request, 'form-confirmation.html')
 
 
 class AddDonationConfiramtion(View):

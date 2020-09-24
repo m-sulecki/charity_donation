@@ -57,7 +57,8 @@
       <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/5</div>
 
-        <form action="form-confirmation.html" method="post">
+        <form action="" method="post">
+          {% csrf_token %}
           <!-- STEP 1: class .active is switching steps -->
           <div data-step="1" class="active">
             <h3>Zaznacz co chcesz oddać:</h3>
@@ -127,7 +128,7 @@
 
           <!-- STEP 4 -->
           <div data-step="4">
-            <h3>Podaj adres oraz termin odbioru rzecz przez kuriera:</h3>
+            <h3>Podaj adres oraz termin odbioru rzeczy przez kuriera:</h3>
 
             <div class="form-section form-section--columns">
               <div class="form-section--column">
@@ -142,13 +143,13 @@
 
                 <div class="form-group form-group--inline">
                   <label>
-                    Kod pocztowy <input type="text" name="postcode" id="postcode"/>
+                    Kod pocztowy <input type="text" name="zip_code" id="zip_code"/>
                   </label>
                 </div>
 
                 <div class="form-group form-group--inline">
                   <label>
-                    Numer telefonu <input type="phone" name="phone" id="phone"/>
+                    Numer telefonu <input type="phone" name="phone_number" id="phone_number"/>
                   </label>
                 </div>
               </div>
@@ -160,7 +161,7 @@
                 </div>
 
                 <div class="form-group form-group--inline">
-                  <label> Godzina <input type="time" name="time" id="time"/> </label>
+                  <label> Godzina <input type="time" name="time" value = "22:53:05" id="time"/> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
@@ -173,7 +174,7 @@
             </div>
             <div class="form-group form-group--buttons">
               <button type="button" class="btn prev-step">Wstecz</button>
-              <button type="button" class="btn next-step id="btn-show">Dalej</button>
+              <button type="button" class="btn next-step" id="btn-show">Dalej</button>
             </div>
           </div>
 
@@ -183,7 +184,7 @@
 
             <div class="summary">
               <div class="form-section">
-                <h4>Oddajesz: &ensp</h4>
+                <h4>Oddajesz:</h4>
                 <ul>
                   <li>
                     <span class="icon icon-bag"></span>
@@ -192,9 +193,7 @@
 
                   <li>
                     <span class="icon icon-hand"></span>
-                    <span class="summary--text" id="institution-info"
-                      >Dla fundacji "Mam marzenie" w Warszawie</span
-                    >
+                    <span class="summary--text" id="institution-info"></span>
                   </li>
                 </ul>
               </div>
@@ -203,19 +202,26 @@
                 <div class="form-section--column">
                   <h4>Adres odbioru:</h4>
                   <ul>
-                    <li id="address-info">Prosta 51</li>
-                    <li id="city-info">Warszawa</li>
-                    <li id="postcode-info">99-098</li>
-                    <li id="phone-info">123 456 789</li>
+                    Ulica:
+                    <li id="address-info"></li>
+                    Miasto:
+                    <li id="city-info"></li>
+                    Kod pocztowy:
+                    <li id="zip_code-info"></li>
+                    Telefon kontaktowy:
+                    <li id="phone_number-info"></li>
                   </ul>
                 </div>
 
                 <div class="form-section--column">
                   <h4>Termin odbioru:</h4>
                   <ul>
-                    <li id="date-info">13/12/2018</li>
-                    <li id="time-info">15:40</li>
-                    <li id="more-info">Brak uwag</li>
+                    Data:
+                    <li id="date-info"></li>
+                    Godzina:
+                    <li id="time-info"></li>
+                    Dodatkowe informacje:
+                    <li id="more_info-info"></li>
                   </ul>
                 </div>
               </div>

@@ -269,7 +269,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function checkArrays(array1, array2) {
 
       for(let i=0; i<array1.length; i++){
-        if(array2.includes(array1[i])){
+        if(array2.includes(array1[i])){ // sprawdzenie czy w element z jednej tablicy znajduje się w drugiej tablicy
 
         }else{
           return false;
@@ -280,14 +280,45 @@ document.addEventListener("DOMContentLoaded", function() {
 
     for(let i=0; i<institutions.length; i++){
       let a = institutions[i].dataset.category_id.split(" ")
-      a.pop();
+//      a.pop();
 
       if(checkArrays(checkedCategories, a)){
-        institutions[i].parentElement.parentElement.style.display = "block";
+        institutions[i].parentElement.parentElement.style.display = "block"; // jeśli zaznaczono instytucję to ją pokazujemy
       }else{
-        institutions[i].parentElement.parentElement.style.display = "none";
+        institutions[i].parentElement.parentElement.style.display = "none"; // jeśli zaznaczono instytucję to ją ukrywamy
       }
     }
   });
+
+  let btnShow = $("#btn-show");
+
+  btnShow.on("click", function(){
+      let bags = $("#bags").val();
+      $("#bags-info").text(bags);
+
+      let institutionName = $("form .form-group--checkbox input:checked + .checkbox").next().children(":first").text();
+      $("#institution-info").text(institutionName)
+
+      let address = $("#address").val();
+      $("#address-info").text(address);
+
+      let city = $("#city").val();
+      $("#city-info").text(city);
+
+      let postcode = $("#zip_code").val();
+      $("#zip_code-info").text(postcode);
+
+      let phone = $("#phone_number").val();
+      $("#phone_number-info").text(phone);
+
+      let date = $("#date").val();
+      $("#date-info").text(date);
+
+      let time = $("#time").val();
+      $("#time-info").text(time);
+
+      let more_info = $("#more_info").val();
+      $("#more_info-info").text(more_info);
+  })
 
 });

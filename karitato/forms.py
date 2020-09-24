@@ -1,4 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm
+
 from .models import MyUser
 from django import forms
 
@@ -18,3 +19,9 @@ class UserRegisterForm(UserCreationForm):
 class LoginForm(forms.Form):
     login = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'e-mail'}))
     password = forms.CharField(max_length=100, widget=forms.PasswordInput(attrs={'placeholder': 'hasło'}))
+
+
+class DonationForm(forms.Form):
+    pass
+    # class Meta:
+    #     model = MyUser
