@@ -59,7 +59,7 @@ class AddDonation(LoginRequiredMixin, View):
         institutions = Institution.objects.all()
         ctx = {'categories': categories,
                'institutions': institutions,
-               'form': form,}
+               'form': form, }
         return render(request, 'form.html', ctx)
 
     def post(self, request):
@@ -133,3 +133,14 @@ class LogoutView(View):
     def get(self, request):
         logout(request)
         return redirect(reverse_lazy("index"))
+
+
+class ProfileView(View):
+    def get(self, request):
+        user = MyUser.objects.get(pk=self.request.user.id)
+        ctx = {
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
+        }
+        return render(request, 'profile.html', ctx)

@@ -118,7 +118,7 @@ class Institution(models.Model):
     categories = models.ManyToManyField(Category)
 
     def __str__(self):
-        return self.name
+        return f'{self.name}. {self.description}'
 
 
 class Donation(models.Model):
