@@ -1,6 +1,6 @@
--- python manage.py shell
--- from karitato.models import *
--- from datetime import datetime
+ python manage.py shell
+ from karitato.models import *
+ from datetime import datetime
 
 category1 = Category.objects.create(name='ubrania')
 category2 = Category.objects.create(name='sprzęt AGD')
@@ -45,16 +45,16 @@ user5 = MyUser.objects.create(first_name='Malwina', last_name='Liszewska', email
 user6 = MyUser.objects.create(first_name='Krzysztof', last_name='Rozwadowski', email='krzysztof-rozwadowski@company.com', password='barcelona1922')
 user7 = MyUser.objects.create(first_name='Marlena', last_name='Zawarowski', email='marlena-zawarowski@company.com', password='helsinki1912')
 
-donation1 = Donation.objects.create(user=user2, institution=institution2,quantity=7,street='ul.Koryńska 72', city='Rzeszów', zip_code='25-485', pick_up_date=datetime.now(), pick_up_time=datetime.now(), pick_up_comment='Odbiór osobisty.')
-donation2 = Donation.objects.create(user=user6, institution=institution1,quantity=3,street='ul. Jońska 41', city='Gdynia', zip_code='36-758', pick_up_date=datetime.now(), pick_up_time=datetime.now(), pick_up_comment='Nie ma pośpiechu.')
-donation3 = Donation.objects.create(user=user1, institution=institution3,quantity=12,street='ul.Koryńska 72', city='Wałbrzych', zip_code='15-785', pick_up_date=datetime.now(), pick_up_time=datetime.now(), pick_up_comment='Nie dzwonić dzwonkiem.')
-donation4 = Donation.objects.create(user=user3, institution=institution1,quantity=9,street='ul. Franciszkańska 82', city='Poznań', zip_code='02-785', pick_up_date=datetime.now(), pick_up_time=datetime.now(), pick_up_comment='Ostrożnie, delikatna paczka.')
-donation5 = Donation.objects.create(user=user2, institution=institution2,quantity=25,street='ul. Olimpijska 96', city='Kraków', zip_code='70-005', pick_up_date=datetime.now(), pick_up_time=datetime.now(), pick_up_comment='Przyjechać przy zgaszonym świetle.')
-donation6 = Donation.objects.create(user=user4, institution=institution2,quantity=25,street='ul. Zimowa 34', city='Bydgoszcz', zip_code='27-822', pick_up_date=datetime.now(), pick_up_time=datetime.now(), pick_up_comment='Przywieźć coś do jedzenia.')
-donation7 = Donation.objects.create(user=user6, institution=institution2,quantity=25,street='ul. Opoczyńska 8', city='Toruń', zip_code='60-115', pick_up_date=datetime.now(), pick_up_time=datetime.now(), pick_up_comment='Sprzedać to z zyskiem.')
-donation8 = Donation.objects.create(user=user2, institution=institution2,quantity=25,street='ul. Fałata 87', city='Bolesławiec', zip_code='88-057', pick_up_date=datetime.now(), pick_up_time=datetime.now(), pick_up_comment='Tylko do użytku zewnętrznego.')
-donation9 = Donation.objects.create(user=user7, institution=institution2,quantity=25,street='ul. Janikowska 91', city='Suwałki', zip_code='03-746', pick_up_date=datetime.now(), pick_up_time=datetime.now(), pick_up_comment='Nie rozpakowywać przed południem.')
-donation10 = Donation.objects.create(user=user5, institution=institution2,quantity=25,street='ul. Trębicka 28', city='Wrocław', zip_code='45-753', pick_up_date=datetime.now(), pick_up_time=datetime.now(), pick_up_comment='Schować do piwnicy.')
+donation1 = Donation.objects.create(user=user2, institution=institution2,quantity=7, address='ul.Koryńska 72', phone_number=123456789, city='Rzeszów', zip_code='25-485', pick_up_date=datetime.now(), pick_up_time=datetime.now(), pick_up_comment='Odbiór osobisty.')
+donation2 = Donation.objects.create(user=user6, institution=institution1,quantity=3, address='ul. Jońska 41', phone_number=123456789, city='Gdynia', zip_code='36-758', pick_up_date=datetime.now(), pick_up_time=datetime.now(), pick_up_comment='Nie ma pośpiechu.')
+donation3 = Donation.objects.create(user=user1, institution=institution3,quantity=12, address='ul.Koryńska 72', phone_number=123456789, city='Wałbrzych', zip_code='15-785', pick_up_date=datetime.now(), pick_up_time=datetime.now(), pick_up_comment='Nie dzwonić dzwonkiem.')
+donation4 = Donation.objects.create(user=user3, institution=institution1,quantity=9, address='ul. Franciszkańska 82', phone_number=123456789, city='Poznań', zip_code='02-785', pick_up_date=datetime.now(), pick_up_time=datetime.now(), pick_up_comment='Ostrożnie, delikatna paczka.')
+donation5 = Donation.objects.create(user=user2, institution=institution2,quantity=26, address='ul. Olimpijska 96', phone_number=123456789, city='Kraków', zip_code='70-005', pick_up_date=datetime.now(), pick_up_time=datetime.now(), pick_up_comment='Przyjechać przy zgaszonym świetle.')
+donation6 = Donation.objects.create(user=user4, institution=institution15,quantity=4, address='ul. Zimowa 34', phone_number=123456789, city='Bydgoszcz', zip_code='27-822', pick_up_date=datetime.now(), pick_up_time=datetime.now(), pick_up_comment='Przywieźć coś do jedzenia.')
+donation7 = Donation.objects.create(user=user6, institution=institution12,quantity=21, address='ul. Opoczyńska 8', phone_number=123456789, city='Toruń', zip_code='60-115', pick_up_date=datetime.now(), pick_up_time=datetime.now(), pick_up_comment='Sprzedać to z zyskiem.')
+donation8 = Donation.objects.create(user=user2, institution=institution8,quantity=8, address='ul. Fałata 87', phone_number=123456789, city='Bolesławiec', zip_code='88-057', pick_up_date=datetime.now(), pick_up_time=datetime.now(), pick_up_comment='Tylko do użytku zewnętrznego.')
+donation9 = Donation.objects.create(user=user7, institution=institution9,quantity=27, address='ul. Janikowska 91', phone_number=123456789, city='Suwałki', zip_code='03-746', pick_up_date=datetime.now(), pick_up_time=datetime.now(), pick_up_comment='Nie rozpakowywać przed południem.')
+donation10 = Donation.objects.create(user=user5, institution=institution13,quantity=12, address='ul. Trębicka 28', phone_number=123456789, city='Wrocław', zip_code='45-753', pick_up_date=datetime.now(), pick_up_time=datetime.now(), pick_up_comment='Schować do piwnicy.')
 
 -- donation = Donation.objects.get(pk=1)
 -- category = Category.objects.get(name='różne')

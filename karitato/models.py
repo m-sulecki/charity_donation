@@ -43,16 +43,16 @@ class Institution(models.Model):
 
 class Donation(models.Model):
     quantity = models.IntegerField()
-    street = models.CharField(max_length=256)
+    categories = models.ManyToManyField(Category)
+    institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
+    address = models.CharField(max_length=255, null=False)
+    phone_number = models.IntegerField(null=False)
     city = models.CharField(max_length=64)
     zip_code = models.CharField(max_length=6)
-    categories = models.ManyToManyField(Category)
     pick_up_date = models.DateField()
     pick_up_time = models.TimeField()
     pick_up_comment = models.CharField(max_length=256, blank=True, null=True)
-    institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE, null=True, default=None)
-    categories = models.ManyToManyField(Category)
 
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name}({self.city}) Donation'

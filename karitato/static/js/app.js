@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
      * TODO: callback to page change event
      */
     changePage(e) {
-      e.preventDefault();
+//      e.preventDefault();
       const page = e.target.dataset.page;
 
       console.log(page);
@@ -243,7 +243,7 @@ document.addEventListener("DOMContentLoaded", function() {
      * TODO: validation, send data to server
      */
     submit(e) {
-      e.preventDefault();
+//      e.preventDefault();
       this.currentStep++;
       this.updateForm();
     }
@@ -252,4 +252,73 @@ document.addEventListener("DOMContentLoaded", function() {
   if (form !== null) {
     new FormSteps(form);
   }
+
+  let filerBtn = document.getElementById("btn-first-step"); // pobranie przycisku 'Dalej' do zmiennej
+  let institutions = document.getElementsByClassName("institutions"); // pobranie wszystkich instytucji do zmiennej
+
+  filerBtn.addEventListener( "click", function() { // dodanie eventu dla przycisku 'Dalej'
+    let checkedCategories = []; // w tej liście będą przechowywane wybrane kategorie
+
+    let categories = document.getElementsByClassName("categories"); // zmienna ze wszystkimi kategoriami
+    for(let i=0; i<categories.length; i++){
+      if(categories[i].checked){ // jeśli zaznaczono kategorię to dodajemy do listy checkedCategories
+         checkedCategories.push(categories[i].value)
+      }
+    }
+
+    function checkArrays(array1, array2) {
+
+      for(let i=0; i<array1.length; i++){
+        if(array2.includes(array1[i])){ // sprawdzenie czy w element z jednej tablicy znajduje się w drugiej tablicy
+
+        }else{
+          return false;
+        }
+      }
+      return true;
+      }
+
+    for(let i=0; i<institutions.length; i++){
+      let a = institutions[i].dataset.category_id.split(" ")
+//      a.pop();
+
+      if(checkArrays(checkedCategories, a)){
+        institutions[i].parentElement.parentElement.style.display = "block"; // jeśli zaznaczono instytucję to ją pokazujemy
+      }else{
+        institutions[i].parentElement.parentElement.style.display = "none"; // jeśli zaznaczono instytucję to ją ukrywamy
+      }
+    }
+  });
+
+  let btnShow = $("#btn-show");
+
+  btnShow.on("click", function(){
+      let bags = $("#bags").val();
+      $("#bags-info").text(bags);
+
+      let institutionName = $("form .form-group--checkbox input:checked + .checkbox").next().children(":first").text();
+      $("#institution-info").text(institutionName)
+
+      let address = $("#address").val();
+      $("#address-info").text(address);
+
+      let city = $("#city").val();
+      $("#city-info").text(city);
+
+      let postcode = $("#zip_code").val();
+      $("#zip_code-info").text(postcode);
+
+      let phone = $("#phone_number").val();
+      $("#phone_number-info").text(phone);
+
+      let date = $("#date").val();
+      $("#date-info").text(date);
+
+      let time = $("#time").val();
+      $("#time-info").text(time);
+
+      let more_info = $("#more_info").val();
+      $("#more_info-info").text(more_info);
+  })
+
 });
