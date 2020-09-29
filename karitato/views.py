@@ -138,9 +138,13 @@ class LogoutView(View):
 class ProfileView(View):
     def get(self, request):
         user = MyUser.objects.get(pk=self.request.user.id)
+        donations = Donation.objects.filter(user_id=user.id)
+        categories = Category.objects.all()
         ctx = {
             'first_name': user.first_name,
             'last_name': user.last_name,
             'email': user.email,
+            'donations': donations,
+            'categories': categories,
         }
         return render(request, 'profile.html', ctx)

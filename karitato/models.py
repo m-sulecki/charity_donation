@@ -1,7 +1,7 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import User, AbstractUser
+from django.core.validators import RegexValidator
 from django.db import models
-
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None):
@@ -118,7 +118,7 @@ class Institution(models.Model):
     categories = models.ManyToManyField(Category)
 
     def __str__(self):
-        return f'{self.name}. {self.description}'
+        return self.name
 
 
 class Donation(models.Model):
@@ -126,13 +126,16 @@ class Donation(models.Model):
     categories = models.ManyToManyField(Category)
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
     address = models.CharField(max_length=255, null=False)
-    phone_number = models.IntegerField(null=False)
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
+                                 message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+    phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)  # validators should be a list
     city = models.CharField(max_length=64)
     zip_code = models.CharField(max_length=6)
     pick_up_date = models.DateField()
     pick_up_time = models.TimeField()
     pick_up_comment = models.CharField(max_length=256, blank=True, null=True)
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE, null=True, default=None)
+    is_taken = models.BooleanField(null=True)
 
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name}({self.city}) Donation'

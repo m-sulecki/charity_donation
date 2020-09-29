@@ -3,7 +3,103 @@
 {% block title %}Profile{% endblock %}
 {% block section %}
     <div class="container">
+        {% if user.is_authenticated %}
         <h2>{{ user.first_name }} {{ user.last_name }}</h2>
         <h2>{{ user.email }}</h2>
+        {% else %}
+        <p>Tylko dla zalogowanych użytkowników.
+            <a href="{% url 'login' %}">Zaloguj</a>
+        </p>
+        {% endif %}
     </div>
+
+    <div class="container">
+        {% if donations %}
+            <h2 id="">Przekazane dary:</h2>
+            <ul>
+                {% for donation in donations %}
+                    <li class="slogan container container--90" >
+                        <p>Przekazano {{ donation.quantity }} worków dla {{ donation.institution }}.</p>
+                            <p>
+                                Kategorie:
+                                {% for category in donation.categories.all %}
+                                {{ category }}
+                                {% endfor %}
+                            </p>
+                        <p>Termin odbioru: {{ donation.pick_up_date }}, {{ donation.pick_up_time }}</p>
+                        <button type="submit"><a href="/archive/{{ donation.id }}">Archiwizuj</button></a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+        <div class="">
+                <h1>Nie przekazałes żadnego daru. Przekaż swój pierwszy dar.</h1>
+                <a class="btn btn-success" href="{% url 'form' %}" role="button">Dodaj darowiznę</a>
+        </div>
+        {% endif %}
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--    <h2 id="donation">Przekazane dary:</h2>-->
+
+<!--    <ul>-->
+<!--        {% for donation in donations %}-->
+<!--            <li class="slogan container container&#45;&#45;90" >-->
+<!--                <p>Przekazano {{ donation.quantity }} worków dla {{ donation.institution }}.</p>-->
+<!--                    <p>-->
+<!--                        Kategorie:-->
+<!--                        {% for category in donation.categories.all %}-->
+<!--                        {{ category }}-->
+<!--                        {% endfor %}-->
+<!--                    </p>-->
+<!--                <p>Termin odbioru: {{ donation.pick_up_date }}, {{ donation.pick_up_time }}</p>-->
+<!--                <button type="submit"><a href="/archive/{{ donation.id }}">Archiwizuj</button></a>-->
+<!--            </li>-->
+<!--        {% endfor %}-->
+<!--    </ul>-->
+
+<!--<div class="steps&#45;&#45;container">-->
+<!--            {% for donation in donations %}-->
+<!--                <div {% if donation.is_taken == False %}class="steps&#45;&#45;item"{% else %}class="steps&#45;&#45;item2"{% endif %}>-->
+<!--                    <span class="icon icon&#45;&#45;hands"></span>-->
+<!--                    <h3>Liczba przekazanych worków</h3>-->
+<!--                    <p>{{ donation.quantity }}</p>-->
+<!--                </div>-->
+<!--                <div class="steps&#45;&#45;item">-->
+<!--                    <span class="icon icon&#45;&#45;arrow"></span>-->
+<!--                    <h3>Organizacja, której przekazano zbiórkę</h3>-->
+<!--                    <p>{{ donation.institution }}</p>-->
+<!--                </div>-->
+<!--                <div class="steps&#45;&#45;item">-->
+<!--                    <span class="icon icon&#45;&#45;glasses"></span>-->
+<!--                    <h3>Rodzaj rzeczy</h3>-->
+<!--                    <p>{% for category in donation.categories.all %}{{ category.name }}<br>{% endfor %}</p>-->
+<!--                </div>-->
+<!--                <div class="steps&#45;&#45;item">-->
+<!--                    <span class="icon icon&#45;&#45;courier"></span>-->
+<!--                    <h3>Data odbioru</h3>-->
+<!--                    <p>{{ donation.pick_up_date }}</p>-->
+<!--                </div>-->
+<!--                <div class="steps&#45;&#45;item">-->
+<!--                    <span class="icon icon&#45;&#45;courier"></span>-->
+<!--                    <h3>Status darowizny</h3>-->
+<!--                    <p>{% if donation.is_taken == True %} Odebrano<br>{% else %} Nieodebrano<br>{% endif %}<a href="../Donation/{{ donation.id }}/" class="btn">Zmień</a></p>-->
+<!--                </div>-->
+<!--                <br>-->
+<!--            {% endfor %}-->
+<!--        </div>-->
 {% endblock %}

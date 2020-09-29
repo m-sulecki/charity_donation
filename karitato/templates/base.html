@@ -20,7 +20,7 @@
                       <li><a href="#">Ustawienia</a></li>
                       <li><a href="{% url 'logout' %}">Wyloguj</a></li>
                         {% if user.admin %}
-                        <li><a href="../admin">Panel administracyjny</a></li>
+                        <li><a href="/admin/">Panel administracyjny</a></li>
                         {% endif %}
                     </ul>
                 </li>
